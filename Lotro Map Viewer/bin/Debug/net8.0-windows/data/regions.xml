@@ -1,0 +1,19 @@
+<root>
+
+	<region name="Eriador">
+		<territory name="Bree-land">
+			<container name="1" />
+			<bounds n="-14.8" e="-38.0" s="-41.2" w="-64.4" />
+		</territory>
+		<territory name="The Shire">
+			<container name="1" />
+			<bounds n="-17.2" e="-62.8" s="-38.0" w="-89.2" />
+		</territory>
+	</region>
+	
+	<region name="Rhovanion">
+		<territory name="Moria">
+		</territory>
+	</region>
+	
+</root>
