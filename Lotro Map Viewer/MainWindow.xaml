@@ -1,0 +1,68 @@
+﻿<Window x:Class="Lotro_Map_Viewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lotro_Map_Viewer"
+        mc:Ignorable="d"
+        Title="Lotro Map Viewer" Height="500" Width="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.DataContext>
+            <XmlDataProvider x:Name="LoadData" Source="regions.xml">
+            </XmlDataProvider>
+        </Grid.DataContext>
+
+        <Grid.Resources>
+            <HierarchicalDataTemplate x:Key="ItemTemplate2" DataType="territory">
+                <TreeViewItem Header="{Binding XPath=@name}">
+                    <TextBlock Text="{Binding XPath=container/@name, StringFormat=Region: r{0}}" />
+                    <TextBlock Text="{Binding XPath=bounds/@n, StringFormat=North: {0}}" />
+                    <TextBlock Text="{Binding XPath=bounds/@e, StringFormat=East: {0}}" />
+                    <TextBlock Text="{Binding XPath=bounds/@s, StringFormat=South: {0}}" />
+                    <TextBlock Text="{Binding XPath=bounds/@w, StringFormat=West: {0}}" />
+                </TreeViewItem>
+            </HierarchicalDataTemplate>
+
+            <HierarchicalDataTemplate x:Key="ItemTemplate" DataType="region">
+                <TreeViewItem Header="{Binding XPath=@name}"
+                    ItemsSource="{Binding Path=.,XPath=territory}"
+                    ItemTemplate="{StaticResource ItemTemplate2}"/>
+            </HierarchicalDataTemplate>
+        </Grid.Resources>
+
+        <TreeView Grid.Column="0" Margin="0,0,10,0" x:Name="trvRegions" 
+            ItemsSource="{Binding Path=.,XPath=root/region}" 
+            ItemTemplate="{StaticResource ItemTemplate}"
+            SelectedItemChanged="TreeView_SelectedItemChanged">
+        </TreeView>
+
+        <StackPanel Grid.Column="2" Margin="10,0,0,0">
+            <Label Content="North"></Label>
+            <TextBox x:Name="txtNorth"/>
+            <Label Margin="0,44,0,0" Content="South"></Label>
+            <TextBox Name="txtSouth"></TextBox>
+            <Button Margin="0,22,0,0">Generate</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+            <Label Margin="0,44,0,0" Content="West"></Label>
+            <TextBox Name="txtWest"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="4" Margin="10,0,0,0">
+            <Label Margin="0,44,0,0" Content="East"></Label>
+            <TextBox Name="txtEast"></TextBox>
+        </StackPanel>
+
+    </Grid>
+</Window>
